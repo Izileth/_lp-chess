@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+  <!-- Fundo escuro idêntico à imagem de referência -->
+  <rect width="256" height="256" fill="#000000" />
+
+  <defs>
+    <!-- Máscara responsável por criar o espaço negativo (os cortes no círculo) -->
+    <mask id="cutout">
+      <!-- Base branca (mantém o elemento visível) -->
+      <rect width="256" height="256" fill="#FFFFFF" />
+      
+      <!-- Linhas pretas que farão os cortes dinâmicos na forma -->
+      <g stroke="#000000" stroke-width="17" fill="none" stroke-linecap="round">
+        <!-- Corte transversal 1 (Esquerda para Direita) -->
+        <path d="M 35 110 C 100 110, 140 145, 205 175" />
+        
+        <!-- Corte transversal 2 (Topo-Esquerda para Base) -->
+        <path d="M 75 50 C 105 95, 115 160, 100 215" />
+      </g>
+    </mask>
+  </defs>
+
+  <!-- Círculo principal aplicando a máscara com os recortes -->
+  <circle cx="128" cy="128" r="82" fill="#FFFFFF" mask="url(#cutout)" />
+
+  <!-- Símbolo de Marca Registrada (®) perfeitamente vetorizado -->
+  <g stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="230" cy="95" r="9" />
+    <path d="M 227 100 V 90 H 230 C 232 90, 233 91, 233 92.5 C 233 94, 232 95, 230 95 H 227 M 229.5 95 L 233 100" />
+  </g>
+</svg>
