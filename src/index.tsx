@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import King from './assets/king.chess.png'
 
 /**
  * FallenKingLanding
