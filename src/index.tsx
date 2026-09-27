@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import kingChessImg from "./assets/king.chess.png";
 
 /**
  * FallenKingLanding
@@ -80,7 +81,7 @@ interface FallenKingLandingProps {
     kingImageSrc?: string;
 }
 
-export default function Index({ kingImageSrc = "" }: FallenKingLandingProps) {
+export default function Index({ kingImageSrc = kingChessImg }: FallenKingLandingProps) {
     const [isOpen, setIsOpen] = useState(false);
     const panelRef = useRef<HTMLDivElement>(null);
     const toggleRef = useRef<HTMLButtonElement>(null);
@@ -211,12 +212,12 @@ export default function Index({ kingImageSrc = "" }: FallenKingLandingProps) {
 
                     {/* CENTER IMAGE */}
                     <div className="order-1 md:order-2 flex flex-col items-center justify-self-center">
-                        <div className="relative w-[220px] h-[280px] sm:w-[260px] sm:h-[330px] flex items-center justify-center">
+                        <div className="relative  w-[220px] h-[280px] sm:w-[260px] sm:h-[330px] flex items-center justify-center">
                             {kingImageSrc ? (
                                 <img
                                     src={kingImageSrc}
                                     alt="Rei de xadrez caindo"
-                                    className="max-w-full max-h-full object-contain"
+                                    className="max-w-full max-h-full scale-250 object-contain"
                                 />
                             ) : (
                                 <div className="w-full h-full flex flex-col items-center justify-center gap-2 border border-dashed border-black/15 rounded-lg text-black/30">

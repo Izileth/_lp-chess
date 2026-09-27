@@ -153,7 +153,7 @@ function ChessBoard() {
     );
 }
 
-export default function ChessBasics() {
+export default function Learn() {
     return (
         <div className="min-h-screen flex flex-col bg-[#f2f1ee]">
             <Header />
