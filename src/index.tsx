@@ -80,7 +80,7 @@ interface FallenKingLandingProps {
     kingImageSrc?: string;
 }
 
-export default function FallenKingLanding({ kingImageSrc = "" }: FallenKingLandingProps) {
+export default function Index({ kingImageSrc = "" }: FallenKingLandingProps) {
     const [isOpen, setIsOpen] = useState(false);
     const panelRef = useRef<HTMLDivElement>(null);
     const toggleRef = useRef<HTMLButtonElement>(null);
