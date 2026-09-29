@@ -104,15 +104,15 @@ export default function Header() {
                 </button>
             </div>
 
-            {/* Mobile panel: 0fr -> 1fr grid-template-rows for a natural height reveal */}
+            {/* Mobile panel: full screen sidebar */}
             <div
                 id="mobile-menu"
                 ref={panelRef}
-                className={`sm:hidden grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                className={`sm:hidden fixed inset-0 z-40 bg-[#f2f1ee] transition-transform duration-300 ease-out motion-reduce:transition-none ${isOpen ? "translate-x-0" : "translate-x-full"
                     }`}
             >
-                <div className="overflow-hidden">
-                    <nav className="flex flex-col divide-y divide-black/5 border-t border-black/5 px-6">
+                <div className="pt-16 h-full overflow-y-auto">
+                    <nav className="flex flex-col px-6 mt-2">
                         {NAV_LINKS.map((link, i) => (
                             <NavLink
                                 key={link.label}
@@ -120,13 +120,13 @@ export default function Header() {
                                 end={link.to === "/"}
                                 onClick={() => setIsOpen(false)}
                                 className={({ isActive }) =>
-                                    `py-4 text-sm font-medium transition-all duration-300 ease-out motion-reduce:transition-none ${isActive ? "text-[#17171a]" : "text-[#17171a]/70"
+                                    `py-4 text-lg font-medium transition-all duration-300 ease-out motion-reduce:transition-none ${isActive ? "text-[#17171a]" : "text-[#17171a]/70"
                                     }`
                                 }
                                 style={{
                                     transitionDelay: isOpen ? `${60 + i * 60}ms` : "0ms",
                                     opacity: isOpen ? 1 : 0,
-                                    transform: isOpen ? "translateY(0)" : "translateY(-6px)",
+                                    transform: isOpen ? "translateX(0)" : "translateX(20px)",
                                 }}
                             >
                                 {link.label}
