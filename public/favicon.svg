@@ -1,30 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
-  <!-- Fundo escuro idêntico à imagem de referência -->
-  <rect width="256" height="256" fill="#000000" />
-
-  <defs>
-    <!-- Máscara responsável por criar o espaço negativo (os cortes no círculo) -->
-    <mask id="cutout">
-      <!-- Base branca (mantém o elemento visível) -->
-      <rect width="256" height="256" fill="#FFFFFF" />
-      
-      <!-- Linhas pretas que farão os cortes dinâmicos na forma -->
-      <g stroke="#000000" stroke-width="17" fill="none" stroke-linecap="round">
-        <!-- Corte transversal 1 (Esquerda para Direita) -->
-        <path d="M 35 110 C 100 110, 140 145, 205 175" />
-        
-        <!-- Corte transversal 2 (Topo-Esquerda para Base) -->
-        <path d="M 75 50 C 105 95, 115 160, 100 215" />
-      </g>
-    </mask>
-  </defs>
-
-  <!-- Círculo principal aplicando a máscara com os recortes -->
-  <circle cx="128" cy="128" r="82" fill="#FFFFFF" mask="url(#cutout)" />
-
-  <!-- Símbolo de Marca Registrada (®) perfeitamente vetorizado -->
-  <g stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="230" cy="95" r="9" />
-    <path d="M 227 100 V 90 H 230 C 232 90, 233 91, 233 92.5 C 233 94, 232 95, 230 95 H 227 M 229.5 95 L 233 100" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Fundo escuro -->
+  <rect width="100%" height="100%" fill="#000000" />
+  
+  <!-- Grupo contendo as formas geométricas do logo -->
+  <g fill="#FFFFFF">
+    
+    <!-- Diamante Superior -->
+    <path d="M 256 136 L 272 146 L 256 156 L 240 146 Z" />
+    
+    <!-- Pilar Central (Forma de ampulheta) -->
+    <path d="M 256 170 
+             L 216 195 
+             C 250 225, 250 287, 216 317 
+             L 256 342 
+             L 296 317 
+             C 262 287, 262 225, 296 195 Z" />
+             
+    <!-- Forma Lateral Esquerda (Acompanha a curva central mantendo espessura e gap uniformes) -->
+    <path d="M 170 170 
+             L 200 195 
+             C 234 225, 234 287, 200 317 
+             L 170 342 
+             L 140 317 
+             C 174 287, 174 225, 140 195 Z" />
+             
+    <!-- Forma Lateral Direita (Espelhada) -->
+    <path d="M 342 170 
+             L 312 195 
+             C 278 225, 278 287, 312 317 
+             L 342 342 
+             L 372 317 
+             C 338 287, 338 225, 372 195 Z" />
+             
+    <!-- Diamante Inferior Menor (Centro) -->
+    <path d="M 256 352 L 276 362 L 256 372 L 236 362 Z" />
+    
+    <!-- Diamante Inferior Largo (Base) -->
+    <path d="M 256 382 L 306 394 L 256 406 L 206 394 Z" />
+    
   </g>
 </svg>
