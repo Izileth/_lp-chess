@@ -63,7 +63,7 @@ export default function FallenKingLanding({ kingImageSrc = "" }: FallenKingLandi
                                 <img
                                     src={kingImageSrc}
                                     alt="Rei de xadrez caindo"
-                                    className="max-w-full max-h-full object-contain"
+                                    className="max-w-full scale-250 max-h-full object-contain"
                                 />
                             ) : (
                                 <div className="w-full h-full flex flex-col items-center justify-center gap-2 border border-dashed border-black/15 rounded-lg text-black/30">
