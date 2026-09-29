@@ -9,7 +9,7 @@ interface NavItem {
 const NAV_LINKS: NavItem[] = [
     { label: "Início", to: "/" },
     { label: "Aprenda", to: "/aprenda" },
-    { label: "Contato", to: "/contato" },
+    { label: "Táticas", to: "/taticas" },
 ];
 
 export default function Header() {
