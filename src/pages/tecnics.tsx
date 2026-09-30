@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import GlitchText from "../components/ui/GlitchText";
-
+import MiniBoard from "../components/layout/Miniboard";
 
 /**
  * ChessTactics ("/taticas")
@@ -43,42 +43,85 @@ const PRINCIPLES: Principle[] = [
     },
 ];
 
+interface OpeningPiece {
+    square: string;
+    symbol: string;
+    white: boolean;
+}
+
 interface Opening {
     name: string;
     moves: string;
     idea: string;
+    pieces: OpeningPiece[];
+    highlight?: string[];
 }
 
 const OPENINGS: Opening[] = [
     {
         name: "Italiana",
         moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4",
-        idea: "O bispo mira direto a f7, o ponto mais frágil do adversário logo no início da partida.",
+        idea: "O bispo sai direto para c4, mirando f7 — o ponto mais frágil do adversário logo no início da partida.",
+        pieces: [
+            { square: "e4", symbol: "♟", white: true },
+            { square: "e5", symbol: "♟", white: false },
+            { square: "f3", symbol: "♞", white: true },
+            { square: "c6", symbol: "♞", white: false },
+            { square: "c4", symbol: "♝", white: true },
+        ],
+        highlight: ["f7"],
     },
     {
         name: "Espanhola",
         moves: "1.e4 e5 2.Nf3 Nc6 3.Bb5",
-        idea: "Pressiona o cavalo que defende o peão e5 — uma das aberturas mais estudadas da história do xadrez.",
+        idea: "O bispo em b5 pressiona o cavalo que defende o peão e5 — uma das aberturas mais estudadas da história do xadrez.",
+        pieces: [
+            { square: "e4", symbol: "♟", white: true },
+            { square: "e5", symbol: "♟", white: false },
+            { square: "f3", symbol: "♞", white: true },
+            { square: "c6", symbol: "♞", white: false },
+            { square: "b5", symbol: "♝", white: true },
+        ],
+        highlight: ["c6"],
     },
     {
         name: "Siciliana",
         moves: "1.e4 c5",
         idea: "A resposta mais jogada contra 1.e4 em nível de elite: luta assimétrica pelo centro desde o primeiro lance.",
+        pieces: [
+            { square: "e4", symbol: "♟", white: true },
+            { square: "c5", symbol: "♟", white: false },
+        ],
     },
     {
         name: "Francesa",
         moves: "1.e4 e6",
         idea: "Estrutura sólida, mas o bispo de casas claras fica preso atrás dos próprios peões por um bom tempo.",
+        pieces: [
+            { square: "e4", symbol: "♟", white: true },
+            { square: "e6", symbol: "♟", white: false },
+        ],
+        highlight: ["c8"],
     },
     {
         name: "Caro-Kann",
         moves: "1.e4 c6",
         idea: "Ideia parecida com a Francesa, só que liberta o bispo de casas claras antes de fechar o centro.",
+        pieces: [
+            { square: "e4", symbol: "♟", white: true },
+            { square: "c6", symbol: "♟", white: false },
+        ],
     },
     {
         name: "Gambito da Dama",
         moves: "1.d4 d5 2.c4",
         idea: "Oferece um peão em troca de espaço e controle do centro — aceito ou recusado, define o resto da partida.",
+        pieces: [
+            { square: "d4", symbol: "♟", white: true },
+            { square: "d5", symbol: "♟", white: false },
+            { square: "c4", symbol: "♟", white: true },
+        ],
+        highlight: ["d5"],
     },
 ];
 
@@ -174,9 +217,9 @@ export default function ChessTactics() {
                     </div>
                 </section>
 
-                {/* OPENINGS */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
-                    <div className="max-w-5xl mx-auto">
+                {/* OPENINGS — one entry at a time, alternating sides, each with its own diagram */}
+                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-black/5">
+                    <div className="max-w-4xl mx-auto">
                         <div className="text-center">
                             <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em]">
                                 Seis entradas
@@ -186,16 +229,49 @@ export default function ChessTactics() {
                             </p>
                         </div>
 
-                        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 border border-black/10">
-                            {OPENINGS.map((o) => (
-                                <div key={o.name} className="bg-[#f2f1ee] p-6 flex flex-col gap-3">
-                                    <p className="font-serif italic text-lg text-[#17171a]">{o.name}</p>
-                                    <p className="font-mono text-xs tracking-wide text-[#17171a]/50 break-words">
-                                        {o.moves}
-                                    </p>
-                                    <p className="text-sm leading-relaxed text-[#17171a]/70">{o.idea}</p>
-                                </div>
-                            ))}
+                        <div className="mt-16 flex flex-col">
+                            {OPENINGS.map((o, i) => {
+                                const isEven = i % 2 === 0;
+                                return (
+                                    <div
+                                        key={o.name}
+                                        className={`py-10 sm:py-12 grid sm:grid-cols-[auto_1fr] gap-8 sm:gap-14 items-center border-t border-black/10 ${
+                                            i === OPENINGS.length - 1 ? "border-b" : ""
+                                        }`}
+                                    >
+                                        <div
+                                            className={`flex flex-col items-center gap-4 ${
+                                                isEven ? "sm:order-1" : "sm:order-2"
+                                            }`}
+                                        >
+                                            <span className="font-mono text-xs tracking-wider text-[#17171a]/30">
+                                                {String(i + 1).padStart(2, "0")}
+                                            </span>
+                                            <MiniBoard
+                                                pieces={o.pieces}
+                                                highlight={o.highlight}
+                                                accent={isEven ? "left" : "right"}
+                                            />
+                                        </div>
+
+                                        <div
+                                            className={`text-center sm:text-left ${
+                                                isEven ? "sm:order-2" : "sm:order-1"
+                                            }`}
+                                        >
+                                            <p className="font-serif italic text-2xl sm:text-3xl text-[#17171a]">
+                                                {o.name}
+                                            </p>
+                                            <p className="font-mono text-xs sm:text-sm tracking-wide text-[#17171a]/50 mt-2">
+                                                {o.moves}
+                                            </p>
+                                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-md mx-auto sm:mx-0">
+                                                {o.idea}
+                                            </p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
