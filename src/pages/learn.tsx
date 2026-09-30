@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import GlitchText from "../components/ui/GlitchText";
+import MiniBoard from "../components/layout/Miniboard";
 
 /**
- * ChessBasics ("/aprenda")
+ * Learn ("/aprenda")
  * -------------------------------------------------------------------------
  * Routed from the FallenKingLanding page via the shared <Header /> nav
  * ("Aprenda" link) — see Header.tsx for the route table. Needs the same
@@ -15,11 +16,16 @@ import GlitchText from "../components/ui/GlitchText";
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const RANKS = [8, 7, 6, 5, 4, 3, 2, 1];
 
+/** All piece diagrams share the same origin square, so mobility compares directly. */
+const ORIGIN = "d4";
+
 interface Piece {
     symbol: string;
     code: string;
     name: string;
     desc: string;
+    /** Squares reachable from d4 on an otherwise empty board. */
+    reach: string[];
 }
 
 const PIECES: Piece[] = [
@@ -28,36 +34,47 @@ const PIECES: Piece[] = [
         code: "P",
         name: "Peão",
         desc: "Anda uma casa à frente (duas no primeiro lance) e captura na diagonal. É o único que ataca diferente de como se move.",
+        reach: ["d5", "c5", "e5"],
     },
     {
         symbol: "♞",
         code: "N",
         name: "Cavalo",
         desc: "Move-se em L: duas casas numa direção e uma perpendicular. É a única peça que pula por cima das outras.",
+        reach: ["e6", "f5", "f3", "e2", "c2", "b3", "b5", "c6"],
     },
     {
         symbol: "♝",
         code: "B",
         name: "Bispo",
         desc: "Desliza pelas diagonais, sempre preso à cor de casa em que começou a partida.",
+        reach: ["e5", "f6", "g7", "h8", "c5", "b6", "a7", "e3", "f2", "g1", "c3", "b2", "a1"],
     },
     {
         symbol: "♜",
         code: "R",
         name: "Torre",
         desc: "Desliza em linha reta, na horizontal ou vertical, por quantas casas o caminho permitir.",
+        reach: ["d1", "d2", "d3", "d5", "d6", "d7", "d8", "a4", "b4", "c4", "e4", "f4", "g4", "h4"],
     },
     {
         symbol: "♛",
         code: "Q",
         name: "Dama",
         desc: "Combina torre e bispo: anda em qualquer direção, quantas casas quiser. A peça mais poderosa do tabuleiro.",
+        reach: [
+            "d1", "d2", "d3", "d5", "d6", "d7", "d8",
+            "a4", "b4", "c4", "e4", "f4", "g4", "h4",
+            "e5", "f6", "g7", "h8", "c5", "b6", "a7",
+            "e3", "f2", "g1", "c3", "b2", "a1",
+        ],
     },
     {
         symbol: "♚",
         code: "K",
         name: "Rei",
         desc: "Anda uma casa em qualquer direção. Perdê-lo em xeque-mate encerra a partida — é a queda que dá nome a este site.",
+        reach: ["c3", "c4", "c5", "d3", "d5", "e3", "e4", "e5"],
     },
 ];
 
@@ -207,9 +224,9 @@ export default function Learn() {
                     </div>
                 </section>
 
-                {/* PIECES */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
-                    <div className="max-w-5xl mx-auto">
+                {/* PIECES — one entry at a time, alternating sides, each with its own movement diagram */}
+                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-black/5">
+                    <div className="max-w-4xl mx-auto">
                         <div className="text-center">
                             <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em]">
                                 Seis peças,
@@ -217,23 +234,62 @@ export default function Learn() {
                             <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-3xl sm:text-5xl text-[#17171a] mt-1">
                                 seis destinos
                             </p>
+                            <p className="font-mono text-xs tracking-wider text-[#17171a]/50 mt-4">
+                                Todos os diagramas partem da mesma casa, d4 — compare o alcance de cada uma.
+                            </p>
                         </div>
 
-                        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 border border-black/10">
-                            {PIECES.map((piece) => (
-                                <div key={piece.code} className="bg-[#f2f1ee] p-6 flex flex-col gap-3">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-4xl leading-none text-[#17171a]" aria-hidden="true">
-                                            {piece.symbol}
-                                        </span>
-                                        <span className="font-mono text-xs tracking-wider text-[#17171a]/40">
-                                            {piece.code}
-                                        </span>
+                        <div className="mt-16 flex flex-col">
+                            {PIECES.map((piece, i) => {
+                                const isEven = i % 2 === 0;
+                                return (
+                                    <div
+                                        key={piece.code}
+                                        className={`py-10 sm:py-12 grid sm:grid-cols-[auto_1fr] gap-8 sm:gap-14 items-center border-t border-black/10 ${
+                                            i === PIECES.length - 1 ? "border-b" : ""
+                                        }`}
+                                    >
+                                        <div
+                                            className={`flex flex-col items-center gap-4 ${
+                                                isEven ? "sm:order-1" : "sm:order-2"
+                                            }`}
+                                        >
+                                            <span className="font-mono text-xs tracking-wider text-[#17171a]/30">
+                                                {String(i + 1).padStart(2, "0")}
+                                            </span>
+                                            <MiniBoard
+                                                pieces={[{ square: ORIGIN, symbol: piece.symbol, white: true }]}
+                                                highlight={piece.reach}
+                                                accent={isEven ? "left" : "right"}
+                                            />
+                                        </div>
+
+                                        <div
+                                            className={`text-center sm:text-left ${
+                                                isEven ? "sm:order-2" : "sm:order-1"
+                                            }`}
+                                        >
+                                            <div className="flex items-center justify-center sm:justify-start gap-3">
+                                                <span className="text-4xl leading-none text-[#17171a]" aria-hidden="true">
+                                                    {piece.symbol}
+                                                </span>
+                                                <p className="font-serif italic text-2xl sm:text-3xl text-[#17171a]">
+                                                    {piece.name}
+                                                </p>
+                                                <span className="font-mono text-xs tracking-wider text-[#17171a]/40">
+                                                    {piece.code}
+                                                </span>
+                                            </div>
+                                            <p className="font-mono text-xs sm:text-sm tracking-wide text-[#17171a]/50 mt-2">
+                                                {piece.reach.length} casas em alcance, a partir de {ORIGIN}
+                                            </p>
+                                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-md mx-auto sm:mx-0">
+                                                {piece.desc}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="font-serif italic text-lg text-[#17171a]">{piece.name}</p>
-                                    <p className="text-sm leading-relaxed text-[#17171a]/70">{piece.desc}</p>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
