@@ -1,1 +1,42 @@
 @import "tailwindcss";
+
+/* ─── Custom cursor ──────────────────────────────────────────────────────── */
+/*
+  Hide the native cursor globally so CustomCursor takes over.
+  The `!important` ensures no Tailwind utility can accidentally override this.
+  On touch/mobile, there's no cursor, so this has no visible effect there.
+*/
+html,
+body,
+* {
+  cursor: none !important;
+}
+
+/* Restore cursor for inputs where the I-beam is useful for accessibility */
+input,
+textarea,
+[contenteditable] {
+  cursor: text !important;
+}
+
+/* ─── Smooth scroll ──────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+/*
+  When the user has prefers-reduced-motion: reduce enabled:
+  - GSAP respects this via gsap.matchMedia() inside the animation modules.
+  - As a safety net, we also reduce CSS transitions here.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
