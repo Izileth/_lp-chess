@@ -28,9 +28,8 @@ export const applyDragPhysics = (element: HTMLElement, options: { bounds?: HTMLE
     type: "x,y",
     inertia: true,
     onDrag: function() {
-      const velX = this.getVelocity ? this.getVelocity("x") : 0; // Requires InertiaPlugin for getVelocity, simulating if absent
-      const simulatedVelX = this.deltaX * 50; 
-      const rotation = gsap.utils.clamp(-25, 25, simulatedVelX / 50);
+      const velX = this.getVelocity ? this.getVelocity("x") : this.deltaX * 50; 
+      const rotation = gsap.utils.clamp(-25, 25, velX / 50);
       gsap.to(element, { rotation: rotation, duration: 0.2, overwrite: 'auto' });
     },
     onRelease: function() {

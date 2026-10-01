@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, RefObject } from "react";
+import { useLayoutEffect, useRef, type RefObject } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Observer from "gsap/Observer";

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+
 import { useCursor } from "../../hooks/useCursor";
 
 /**

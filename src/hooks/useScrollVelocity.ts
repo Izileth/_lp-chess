@@ -9,7 +9,7 @@ export function useScrollVelocity() {
   const smoothedVelocity = useRef(0);
 
   useEffect(() => {
-    const setSmoothed = gsap.quickSetter(smoothedVelocity, "current");
+
 
     const tracker = ScrollTrigger.create({
       trigger: document.body,
