@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import Header from "../components/layout/Header";
+import { useRef, useLayoutEffect } from "react";
+import NavBar from "../components/layout/NavBar";
+import { createScrollAnimations } from "../animations/scroll";
 import Footer from "../components/layout/Footer";
 import GlitchText from "../components/ui/GlitchText";
 import MiniBoard from "../components/layout/Miniboard";
@@ -7,7 +9,7 @@ import MiniBoard from "../components/layout/Miniboard";
 /**
  * ChessTactics ("/taticas")
  * -------------------------------------------------------------------------
- * Routed from the shared <Header /> nav ("Táticas" link — see Header.tsx).
+ * Routed from the shared <NavBar /> nav ("Táticas" link — see Header.tsx).
  * Sits after /aprenda in the learning path: rules first, patterns second.
  * Needs the same font + tailwind.config setup described at the top of
  * FallenKingLanding.tsx.
@@ -165,25 +167,32 @@ const TACTICS: Tactic[] = [
 ];
 
 export default function ChessTactics() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    useLayoutEffect(() => {
+        if (!containerRef.current) return;
+        const cleanup = createScrollAnimations(containerRef.current);
+        return cleanup;
+    }, []);
+
     return (
-        <div className="min-h-screen flex flex-col bg-[#f2f1ee]">
-            <Header />
+        <div ref={containerRef} className="min-h-screen flex flex-col bg-[#0d0d0f] text-[#f2f1ee]">
+            <NavBar />
 
             <main className="flex-1">
                 {/* HERO */}
-                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-[#f2f1ee]/5">
                     <div className="max-w-3xl mx-auto text-center">
-                        <p className="font-serif italic text-lg sm:text-xl text-[#17171a] tracking-[-0.01em]">
+                        <p data-text-reveal className="font-serif italic text-lg sm:text-xl text-[#f2f1ee] tracking-[-0.01em]">
                             Regras dominadas.
                         </p>
-                        <div className="mt-1 flex justify-center">
+                        <div data-reveal="mask-v" className="mt-1 flex justify-center">
                             <GlitchText
                                 text="AGORA, OS PADRÕES"
                                 tone="right"
                                 className="font-mono font-extrabold uppercase tracking-wide leading-none text-3xl sm:text-5xl"
                             />
                         </div>
-                        <p className="mt-6 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-xl mx-auto">
+                        <p className="mt-6 text-sm sm:text-base leading-relaxed text-[#f2f1ee]/70 max-w-xl mx-auto">
                             Saber como as peças se movem é só o começo. O que decide a maioria das partidas são
                             aberturas bem escolhidas e a capacidade de enxergar os mesmos padrões táticos que
                             se repetem, com pequenas variações, em milhões de tabuleiros diferentes.
@@ -192,24 +201,24 @@ export default function ChessTactics() {
                 </section>
 
                 {/* OPENING PRINCIPLES */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-[#f2f1ee]/5">
                     <div className="max-w-4xl mx-auto">
-                        <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em] text-center">
+                        <p data-text-reveal className="font-serif italic text-xl sm:text-2xl text-[#f2f1ee] tracking-[-0.01em] text-center">
                             Antes de decorar aberturas,
                         </p>
-                        <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1 text-center">
+                        <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1 text-center">
                             entenda os princípios
                         </p>
 
                         <div className="mt-12 grid sm:grid-cols-2 gap-x-10 gap-y-8">
                             {PRINCIPLES.map((p) => (
                                 <div key={p.step} className="flex gap-4">
-                                    <span className="font-mono text-xs tracking-wider text-[#17171a]/40 pt-1 shrink-0">
+                                    <span className="font-mono text-xs tracking-wider text-[#f2f1ee]/40 pt-1 shrink-0">
                                         {p.step}
                                     </span>
                                     <div>
-                                        <p className="font-serif italic text-lg text-[#17171a]">{p.title}</p>
-                                        <p className="mt-1 text-sm leading-relaxed text-[#17171a]/70">{p.desc}</p>
+                                        <p data-text-reveal className="font-serif italic text-lg text-[#f2f1ee]">{p.title}</p>
+                                        <p className="mt-1 text-sm leading-relaxed text-[#f2f1ee]/70">{p.desc}</p>
                                     </div>
                                 </div>
                             ))}
@@ -218,13 +227,13 @@ export default function ChessTactics() {
                 </section>
 
                 {/* OPENINGS — one entry at a time, alternating sides, each with its own diagram */}
-                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-[#f2f1ee]/5">
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center">
-                            <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em]">
+                            <p data-text-reveal className="font-serif italic text-xl sm:text-2xl text-[#f2f1ee] tracking-[-0.01em]">
                                 Seis entradas
                             </p>
-                            <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-3xl sm:text-5xl text-[#17171a] mt-1">
+                            <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-3xl sm:text-5xl text-[#f2f1ee] mt-1">
                                 que todo jogador conhece
                             </p>
                         </div>
@@ -235,7 +244,7 @@ export default function ChessTactics() {
                                 return (
                                     <div
                                         key={o.name}
-                                        className={`py-10 sm:py-12 grid sm:grid-cols-[auto_1fr] gap-8 sm:gap-14 items-center border-t border-black/10 ${
+                                        className={`py-10 sm:py-12 grid sm:grid-cols-[auto_1fr] gap-8 sm:gap-14 items-center border-t border-[#f2f1ee]/10 ${
                                             i === OPENINGS.length - 1 ? "border-b" : ""
                                         }`}
                                     >
@@ -244,7 +253,7 @@ export default function ChessTactics() {
                                                 isEven ? "sm:order-1" : "sm:order-2"
                                             }`}
                                         >
-                                            <span className="font-mono text-xs tracking-wider text-[#17171a]/30">
+                                            <span className="font-mono text-xs tracking-wider text-[#f2f1ee]/30">
                                                 {String(i + 1).padStart(2, "0")}
                                             </span>
                                             <MiniBoard
@@ -259,13 +268,13 @@ export default function ChessTactics() {
                                                 isEven ? "sm:order-2" : "sm:order-1"
                                             }`}
                                         >
-                                            <p className="font-serif italic text-2xl sm:text-3xl text-[#17171a]">
+                                            <p data-text-reveal className="font-serif italic text-2xl sm:text-3xl text-[#f2f1ee]">
                                                 {o.name}
                                             </p>
-                                            <p className="font-mono text-xs sm:text-sm tracking-wide text-[#17171a]/50 mt-2">
+                                            <p className="font-mono text-xs sm:text-sm tracking-wide text-[#f2f1ee]/50 mt-2">
                                                 {o.moves}
                                             </p>
-                                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-md mx-auto sm:mx-0">
+                                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#f2f1ee]/70 max-w-md mx-auto sm:mx-0">
                                                 {o.idea}
                                             </p>
                                         </div>
@@ -277,22 +286,22 @@ export default function ChessTactics() {
                 </section>
 
                 {/* TACTICAL PATTERNS */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-[#f2f1ee]/5">
                     <div className="max-w-3xl mx-auto">
-                        <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em] text-center">
+                        <p data-text-reveal className="font-serif italic text-xl sm:text-2xl text-[#f2f1ee] tracking-[-0.01em] text-center">
                             Seis padrões
                         </p>
-                        <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1 text-center">
+                        <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1 text-center">
                             que decidem partidas
                         </p>
 
-                        <dl className="mt-12 divide-y divide-black/10 border-t border-b border-black/10">
+                        <dl className="mt-12 divide-y divide-black/10 border-t border-b border-[#f2f1ee]/10">
                             {TACTICS.map((t) => (
                                 <div key={t.code} className="py-6 grid sm:grid-cols-[100px_1fr] gap-2 sm:gap-6">
-                                    <dt className="font-mono font-bold text-sm text-[#17171a]">{t.code}</dt>
+                                    <dt className="font-mono font-bold text-sm text-[#f2f1ee]">{t.code}</dt>
                                     <dd>
-                                        <p className="font-serif italic text-base text-[#17171a]">{t.name}</p>
-                                        <p className="mt-1 text-sm leading-relaxed text-[#17171a]/70">{t.desc}</p>
+                                        <p data-text-reveal className="font-serif italic text-base text-[#f2f1ee]">{t.name}</p>
+                                        <p className="mt-1 text-sm leading-relaxed text-[#f2f1ee]/70">{t.desc}</p>
                                     </dd>
                                 </div>
                             ))}
@@ -301,23 +310,23 @@ export default function ChessTactics() {
                 </section>
 
                 {/* CLASSIC TRAP */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-[#f2f1ee]/5">
                     <div className="max-w-2xl mx-auto text-center">
-                        <p className="font-serif italic text-lg sm:text-xl text-[#17171a] tracking-[-0.01em]">
+                        <p data-text-reveal className="font-serif italic text-lg sm:text-xl text-[#f2f1ee] tracking-[-0.01em]">
                             Uma queda em quatro lances
                         </p>
-                        <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1">
+                        <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1">
                             o mate do pastor
                         </p>
 
-                        <div className="mt-8 inline-flex flex-wrap justify-center gap-x-4 gap-y-2 font-mono text-sm sm:text-base text-[#17171a] bg-black/[0.03] border border-black/10 px-6 py-4">
+                        <div className="mt-8 inline-flex flex-wrap justify-center gap-x-4 gap-y-2 font-mono text-sm sm:text-base text-[#f2f1ee] bg-white/[0.03] border border-[#f2f1ee]/10 px-6 py-4">
                             <span>1. e4 e5</span>
                             <span>2. Bc4 Bc5</span>
                             <span>3. Qh5 Nf6??</span>
                             <span className="text-[#b0231f] font-bold">4. Qxf7#</span>
                         </div>
 
-                        <p className="mt-6 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-lg mx-auto">
+                        <p className="mt-6 text-sm sm:text-base leading-relaxed text-[#f2f1ee]/70 max-w-lg mx-auto">
                             As pretas desenvolvem naturalmente, mas ignoram que a dama branca e o bispo já miram
                             a mesma casa: f7. No lance 3, a dama ameaça mate — e o cavalo em f6, por mais que
                             pareça uma boa jogada, não defende. É um rei caindo antes mesmo de o meio-jogo
@@ -328,20 +337,20 @@ export default function ChessTactics() {
 
                 {/* CTA */}
                 <section className="px-6 sm:px-10 py-16 sm:py-24 text-center">
-                    <p className="font-serif italic text-lg sm:text-xl text-[#17171a]">Padrões reconhecidos.</p>
-                    <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1">
+                    <p data-text-reveal className="font-serif italic text-lg sm:text-xl text-[#f2f1ee]">Padrões reconhecidos.</p>
+                    <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1">
                         Agora é praticar
                     </p>
                     <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                         <Link
                             to="/aprenda"
-                            className="inline-block font-mono text-xs tracking-wider uppercase border border-[#17171a]/20 px-6 py-3 text-[#17171a] hover:bg-[#17171a] hover:text-[#f2f1ee] transition-colors"
+                            className="inline-block font-mono text-xs tracking-wider uppercase border border-[#17171a]/20 px-6 py-3 text-[#f2f1ee] hover:bg-[#f2f1ee] hover:text-[#0d0d0f] transition-colors"
                         >
                             Rever a base
                         </Link>
                         <Link
                             to="/"
-                            className="inline-block font-mono text-xs tracking-wider uppercase border border-transparent px-6 py-3 text-[#17171a]/60 hover:text-[#17171a] transition-colors"
+                            className="inline-block font-mono text-xs tracking-wider uppercase border border-transparent px-6 py-3 text-[#f2f1ee]/60 hover:text-[#f2f1ee] transition-colors"
                         >
                             Voltar para o início
                         </Link>

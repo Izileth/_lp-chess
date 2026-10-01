@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import Header from "../components/layout/Header";
+import { useRef, useLayoutEffect } from "react";
+import NavBar from "../components/layout/NavBar";
+import { createScrollAnimations } from "../animations/scroll";
 import Footer from "../components/layout/Footer";
 import GlitchText from "../components/ui/GlitchText";
 import MiniBoard from "../components/layout/Miniboard";
@@ -7,7 +9,7 @@ import MiniBoard from "../components/layout/Miniboard";
 /**
  * Learn ("/aprenda")
  * -------------------------------------------------------------------------
- * Routed from the FallenKingLanding page via the shared <Header /> nav
+ * Routed from the FallenKingLanding page via the shared <NavBar /> nav
  * ("Aprenda" link) — see Header.tsx for the route table. Needs the same
  * font + tailwind.config setup described at the top of FallenKingLanding.tsx.
  * -------------------------------------------------------------------------
@@ -129,7 +131,7 @@ function ChessBoard() {
     return (
         <div className="inline-flex flex-col select-none" aria-hidden="true">
             <div className="flex">
-                <div className="flex flex-col justify-between pr-2 py-0.5 font-mono text-[10px] text-[#17171a]/40">
+                <div className="flex flex-col justify-between pr-2 py-0.5 font-mono text-[10px] text-[#f2f1ee]/40">
                     {RANKS.map((rank) => (
                         <span key={rank} className="h-8 flex items-center sm:h-9">
                             {rank}
@@ -152,14 +154,14 @@ function ChessBoard() {
                                     y={r * 40}
                                     width={40}
                                     height={40}
-                                    fill={isLight ? "#e9e7e1" : "#17171a"}
+                                    fill={isLight ? "#f2f1ee" : "#1c1c21"}
                                 />
                             );
                         })
                     )}
                 </svg>
             </div>
-            <div className="flex pl-6 pt-1 font-mono text-[10px] text-[#17171a]/40">
+            <div className="flex pl-6 pt-1 font-mono text-[10px] text-[#f2f1ee]/40">
                 {FILES.map((file) => (
                     <span key={file} className="w-8 text-center sm:w-9">
                         {file}
@@ -171,25 +173,32 @@ function ChessBoard() {
 }
 
 export default function Learn() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    useLayoutEffect(() => {
+        if (!containerRef.current) return;
+        const cleanup = createScrollAnimations(containerRef.current);
+        return cleanup;
+    }, []);
+
     return (
-        <div className="min-h-screen flex flex-col bg-[#f2f1ee]">
-            <Header />
+        <div ref={containerRef} className="min-h-screen flex flex-col bg-[#0d0d0f] text-[#f2f1ee]">
+            <NavBar />
 
             <main className="flex-1">
                 {/* HERO */}
-                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-[#f2f1ee]/5">
                     <div className="max-w-3xl mx-auto text-center">
-                        <p className="font-serif italic text-lg sm:text-xl text-[#17171a] tracking-[-0.01em]">
+                        <p data-text-reveal className="font-serif italic text-lg sm:text-xl text-[#f2f1ee] tracking-[-0.01em]">
                             Antes de qualquer queda,
                         </p>
-                        <div className="mt-1 flex justify-center">
+                        <div data-reveal="mask-v" className="mt-1 flex justify-center">
                             <GlitchText
                                 text="APRENDA AS REGRAS"
                                 tone="left"
                                 className="font-mono font-extrabold uppercase tracking-wide leading-none text-3xl sm:text-5xl"
                             />
                         </div>
-                        <p className="mt-6 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-xl mx-auto">
+                        <p className="mt-6 text-sm sm:text-base leading-relaxed text-[#f2f1ee]/70 max-w-xl mx-auto">
                             O xadrez moderno tomou a forma que conhecemos por volta do século XV, quando a
                             dama e o bispo ganharam os movimentos de longo alcance que usamos até hoje. As
                             regras abaixo são a base sobre a qual toda partida — e toda queda de um rei — se
@@ -199,23 +208,23 @@ export default function Learn() {
                 </section>
 
                 {/* BOARD */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-[#f2f1ee]/5">
                     <div className="max-w-5xl mx-auto grid md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-center">
                         <div className="flex justify-center">
                             <ChessBoard />
                         </div>
                         <div className="text-center md:text-left">
-                            <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em]">
+                            <p data-text-reveal className="font-serif italic text-xl sm:text-2xl text-[#f2f1ee] tracking-[-0.01em]">
                                 O tabuleiro
                             </p>
-                            <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1">
+                            <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1">
                                 64 casas, 8 fileiras
                             </p>
-                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-md mx-auto md:mx-0">
+                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#f2f1ee]/70 max-w-md mx-auto md:mx-0">
                                 O tabuleiro tem 64 casas alternadas entre claras e escuras, organizadas em 8
                                 colunas e 8 fileiras. Cada jogador começa com a casa clara no canto direito.
                             </p>
-                            <p className="font-mono text-xs tracking-wider text-[#17171a]/60 mt-4 leading-relaxed max-w-md mx-auto md:mx-0">
+                            <p className="font-mono text-xs tracking-wider text-[#f2f1ee]/60 mt-4 leading-relaxed max-w-md mx-auto md:mx-0">
                                 Cada casa tem um endereço: a letra da coluna (a–h) mais o número da fileira
                                 (1–8). "e4" é sempre a mesma casa, em qualquer partida do mundo — é assim que os
                                 lances são registrados.
@@ -225,16 +234,16 @@ export default function Learn() {
                 </section>
 
                 {/* PIECES — one entry at a time, alternating sides, each with its own movement diagram */}
-                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-24 border-b border-[#f2f1ee]/5">
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center">
-                            <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em]">
+                            <p data-text-reveal className="font-serif italic text-xl sm:text-2xl text-[#f2f1ee] tracking-[-0.01em]">
                                 Seis peças,
                             </p>
-                            <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-3xl sm:text-5xl text-[#17171a] mt-1">
+                            <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-3xl sm:text-5xl text-[#f2f1ee] mt-1">
                                 seis destinos
                             </p>
-                            <p className="font-mono text-xs tracking-wider text-[#17171a]/50 mt-4">
+                            <p className="font-mono text-xs tracking-wider text-[#f2f1ee]/50 mt-4">
                                 Todos os diagramas partem da mesma casa, d4 — compare o alcance de cada uma.
                             </p>
                         </div>
@@ -245,7 +254,7 @@ export default function Learn() {
                                 return (
                                     <div
                                         key={piece.code}
-                                        className={`py-10 sm:py-12 grid sm:grid-cols-[auto_1fr] gap-8 sm:gap-14 items-center border-t border-black/10 ${
+                                        className={`py-10 sm:py-12 grid sm:grid-cols-[auto_1fr] gap-8 sm:gap-14 items-center border-t border-[#f2f1ee]/10 ${
                                             i === PIECES.length - 1 ? "border-b" : ""
                                         }`}
                                     >
@@ -254,7 +263,7 @@ export default function Learn() {
                                                 isEven ? "sm:order-1" : "sm:order-2"
                                             }`}
                                         >
-                                            <span className="font-mono text-xs tracking-wider text-[#17171a]/30">
+                                            <span className="font-mono text-xs tracking-wider text-[#f2f1ee]/30">
                                                 {String(i + 1).padStart(2, "0")}
                                             </span>
                                             <MiniBoard
@@ -270,20 +279,20 @@ export default function Learn() {
                                             }`}
                                         >
                                             <div className="flex items-center justify-center sm:justify-start gap-3">
-                                                <span className="text-4xl leading-none text-[#17171a]" aria-hidden="true">
+                                                <span className="text-4xl leading-none text-[#f2f1ee]" aria-hidden="true">
                                                     {piece.symbol}
                                                 </span>
-                                                <p className="font-serif italic text-2xl sm:text-3xl text-[#17171a]">
+                                                <p data-text-reveal className="font-serif italic text-2xl sm:text-3xl text-[#f2f1ee]">
                                                     {piece.name}
                                                 </p>
-                                                <span className="font-mono text-xs tracking-wider text-[#17171a]/40">
+                                                <span className="font-mono text-xs tracking-wider text-[#f2f1ee]/40">
                                                     {piece.code}
                                                 </span>
                                             </div>
-                                            <p className="font-mono text-xs sm:text-sm tracking-wide text-[#17171a]/50 mt-2">
+                                            <p className="font-mono text-xs sm:text-sm tracking-wide text-[#f2f1ee]/50 mt-2">
                                                 {piece.reach.length} casas em alcance, a partir de {ORIGIN}
                                             </p>
-                                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#17171a]/70 max-w-md mx-auto sm:mx-0">
+                                            <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#f2f1ee]/70 max-w-md mx-auto sm:mx-0">
                                                 {piece.desc}
                                             </p>
                                         </div>
@@ -295,22 +304,22 @@ export default function Learn() {
                 </section>
 
                 {/* SPECIAL MOVES */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-[#f2f1ee]/5">
                     <div className="max-w-3xl mx-auto">
-                        <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em] text-center">
+                        <p data-text-reveal className="font-serif italic text-xl sm:text-2xl text-[#f2f1ee] tracking-[-0.01em] text-center">
                             Quatro exceções
                         </p>
-                        <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1 text-center">
+                        <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1 text-center">
                             que valem a regra
                         </p>
 
-                        <dl className="mt-12 divide-y divide-black/10 border-t border-b border-black/10">
+                        <dl className="mt-12 divide-y divide-black/10 border-t border-b border-[#f2f1ee]/10">
                             {SPECIAL_MOVES.map((rule) => (
                                 <div key={rule.code} className="py-6 grid sm:grid-cols-[100px_1fr] gap-2 sm:gap-6">
-                                    <dt className="font-mono font-bold text-sm text-[#17171a]">{rule.code}</dt>
+                                    <dt className="font-mono font-bold text-sm text-[#f2f1ee]">{rule.code}</dt>
                                     <dd>
-                                        <p className="font-serif italic text-base text-[#17171a]">{rule.name}</p>
-                                        <p className="mt-1 text-sm leading-relaxed text-[#17171a]/70">{rule.desc}</p>
+                                        <p data-text-reveal className="font-serif italic text-base text-[#f2f1ee]">{rule.name}</p>
+                                        <p className="mt-1 text-sm leading-relaxed text-[#f2f1ee]/70">{rule.desc}</p>
                                     </dd>
                                 </div>
                             ))}
@@ -319,22 +328,22 @@ export default function Learn() {
                 </section>
 
                 {/* END OF GAME */}
-                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-black/5">
+                <section className="px-6 sm:px-10 py-16 sm:py-20 border-b border-[#f2f1ee]/5">
                     <div className="max-w-3xl mx-auto">
-                        <p className="font-serif italic text-xl sm:text-2xl text-[#17171a] tracking-[-0.01em] text-center">
+                        <p data-text-reveal className="font-serif italic text-xl sm:text-2xl text-[#f2f1ee] tracking-[-0.01em] text-center">
                             Como uma partida
                         </p>
-                        <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1 text-center">
+                        <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1 text-center">
                             chega ao fim
                         </p>
 
-                        <dl className="mt-12 divide-y divide-black/10 border-t border-b border-black/10">
+                        <dl className="mt-12 divide-y divide-black/10 border-t border-b border-[#f2f1ee]/10">
                             {END_STATES.map((rule) => (
                                 <div key={rule.code} className="py-6 grid sm:grid-cols-[100px_1fr] gap-2 sm:gap-6">
-                                    <dt className="font-mono font-bold text-sm text-[#17171a]">{rule.code}</dt>
+                                    <dt className="font-mono font-bold text-sm text-[#f2f1ee]">{rule.code}</dt>
                                     <dd>
-                                        <p className="font-serif italic text-base text-[#17171a]">{rule.name}</p>
-                                        <p className="mt-1 text-sm leading-relaxed text-[#17171a]/70">{rule.desc}</p>
+                                        <p data-text-reveal className="font-serif italic text-base text-[#f2f1ee]">{rule.name}</p>
+                                        <p className="mt-1 text-sm leading-relaxed text-[#f2f1ee]/70">{rule.desc}</p>
                                     </dd>
                                 </div>
                             ))}
@@ -344,13 +353,13 @@ export default function Learn() {
 
                 {/* CTA */}
                 <section className="px-6 sm:px-10 py-16 sm:py-24 text-center">
-                    <p className="font-serif italic text-lg sm:text-xl text-[#17171a]">Regras aprendidas.</p>
-                    <p className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#17171a] mt-1">
+                    <p data-text-reveal className="font-serif italic text-lg sm:text-xl text-[#f2f1ee]">Regras aprendidas.</p>
+                    <p data-text-reveal className="font-mono font-extrabold uppercase tracking-wide leading-none text-2xl sm:text-4xl text-[#f2f1ee] mt-1">
                         Hora do primeiro lance
                     </p>
                     <Link
                         to="/"
-                        className="inline-block mt-8 font-mono text-xs tracking-wider uppercase border border-[#17171a]/20 px-6 py-3 text-[#17171a] hover:bg-[#17171a] hover:text-[#f2f1ee] transition-colors"
+                        className="inline-block mt-8 font-mono text-xs tracking-wider uppercase border border-[#17171a]/20 px-6 py-3 text-[#f2f1ee] hover:bg-[#f2f1ee] hover:text-[#0d0d0f] transition-colors"
                     >
                         Voltar para o início
                     </Link>
