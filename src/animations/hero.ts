@@ -37,7 +37,7 @@ export const createHeroTimeline = (els: HeroElements): gsap.core.Timeline => {
     masterTimeline.fromTo(word,
       { y: 60, opacity: 0, rotationX: -40, x: dir * 30 },
       { y: 0, opacity: 1, rotationX: 0, x: 0, duration: 0.8, ease: 'power3.out' },
-      start+=
+      `start+=${0.6 + index * 0.08}`
     );
   });
 

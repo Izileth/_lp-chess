@@ -18,7 +18,7 @@ export const splitAndRevealText = (element: HTMLElement, options: TextRevealOpti
   const text = element.innerText;
   const parts = type === 'words' ? text.split(' ') : text.split('');
   
-  const html = parts.map(p => <span style="display:inline-block; overflow:hidden;"><span style="display:inline-block;"></span></span>).join(type === 'words' ? ' ' : '');
+  const html = parts.map(p => `<span style="display:inline-block; overflow:hidden;"><span style="display:inline-block;">${p === ' ' ? '&nbsp;' : p}</span></span>`).join(type === 'words' ? ' ' : '');
   element.innerHTML = html;
 
   const innerSpans = element.querySelectorAll('span > span');
@@ -39,7 +39,7 @@ export const animateTrackingExpand = (element: HTMLElement, from: number, to: nu
     duration: 1,
     ease: 'power2.out',
     onUpdate: () => {
-      element.style.letterSpacing = ${proxy.letterSpacing}em;
+      element.style.letterSpacing = `${proxy.letterSpacing}em`;
     }
   });
 };

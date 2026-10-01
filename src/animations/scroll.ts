@@ -38,7 +38,7 @@ export const createScrollAnimations = (scope: HTMLElement): (() => void) => {
     // B) Text reveals
     const textReveals = gsap.utils.toArray<HTMLElement>('[data-text-reveal]');
     textReveals.forEach(el => {
-      const chars = Array.from(el.innerText).map(c => <span style="display:inline-block; overflow:hidden;"><span style="display:inline-block;"></span></span>).join('');
+      const chars = Array.from(el.innerText).map(c => `<span style="display:inline-block; overflow:hidden;"><span style="display:inline-block;">${c === ' ' ? '&nbsp;' : c}</span></span>`).join('');
       el.innerHTML = chars;
       const spans = el.querySelectorAll('span > span');
       gsap.fromTo(spans, 

@@ -14,7 +14,7 @@ export const createHorizontalScrollSection = (container: HTMLElement, track: HTM
         trigger: container,
         pin: true,
         scrub: 1,
-        end: () => +=
+        end: () => `+=${scrollWidth}`
       }
     });
 
@@ -77,7 +77,7 @@ export const createHorizontalScrollSection = (container: HTMLElement, track: HTM
           scrollTrigger: {
             trigger: container,
             start: 'top top',
-            end: () => +=,
+            end: () => `+=${scrollWidth}`,
             scrub: 1
           }
         }
