@@ -19,17 +19,17 @@ export default function GlitchText({ text, tone, className = "" }: GlitchTextPro
         <span className="relative inline-block isolate">
             <span
                 aria-hidden="true"
-                className={`absolute inset-0 translate-y-3 text-[#b9b7b2] opacity-90 ${className}`}
+                className={`absolute inset-0 translate-y-3 text-[#f2f1ee] opacity-20 ${className}`}
             >
                 {text}
             </span>
             <span
                 aria-hidden="true"
-                className={`absolute inset-0 -translate-x-1.5 mix-blend-multiply opacity-75 ${ghostColorClass} ${className}`}
+                className={`absolute inset-0 -translate-x-1.5 mix-blend-screen opacity-75 ${ghostColorClass} ${className}`}
             >
                 {text}
             </span>
-            <span className={`relative z-[3] text-[#17171a] ${className}`}>{text}</span>
+            <span className={`relative z-[3] text-[#f2f1ee] ${className}`}>{text}</span>
         </span>
     );
 }
