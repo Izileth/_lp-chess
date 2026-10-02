@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+html {
+  background-color: #000000;
+}
 /* ─── Custom cursor ──────────────────────────────────────────────────────── */
 /*
   Hide the native cursor globally so CustomCursor takes over.
@@ -10,7 +13,9 @@ html,
 body,
 * {
   cursor: none !important;
+  -webkit-tap-highlight-color: transparent;
 }
+
 
 /* Restore cursor for inputs where the I-beam is useful for accessibility */
 input,
