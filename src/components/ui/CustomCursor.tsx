@@ -28,7 +28,7 @@ export default function CustomCursor() {
       <div
         ref={haloRef}
         aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-0 z-[9998] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#17171a]/20"
+        className="pointer-events-none fixed top-0 left-0 z-[9998] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#fafafa]/20"
         style={{ width: 64, height: 64 }}
       />
 
@@ -36,7 +36,7 @@ export default function CustomCursor() {
       <div
         ref={cursorRef}
         aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#17171a]/60 mix-blend-multiply"
+        className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#fafafa]/60 mix-blend-multiply"
         style={{ width: 32, height: 32 }}
       />
 
@@ -44,7 +44,7 @@ export default function CustomCursor() {
       <div
         ref={dotRef}
         aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#17171a]"
+        className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fafafa]"
         style={{ width: 4, height: 4 }}
       />
     </>
