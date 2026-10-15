@@ -51,3 +51,66 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Firefox */
+  @media (hover: hover) {
+    :root:hover {
+      scrollbar-color: rgb(255 255 255 / 15%) transparent;
+    }
+  }
+
+  /* Chrome, Edge e Safari */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+    transition: background-color 250ms ease;
+  }
+
+  @media (hover: hover) {
+    html:hover::-webkit-scrollbar-thumb {
+      background-color: rgb(255 255 255 / 15%);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: rgb(255 255 255 / 30%);
+    }
+  }
+
+  /* Acessibilidade */
+  :focus-visible {
+    @apply outline outline-1 outline-offset-4 outline-white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      transition: none;
+    }
+  }
+}
